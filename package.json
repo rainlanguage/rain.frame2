@@ -13,6 +13,8 @@
 		"@rainlanguage/orderbook": "0.0.1-alpha.2",
 		"@tanstack/react-query": "^5.51.23",
 		"@tanstack/react-table": "^8.20.5",
+		"@testing-library/jest-dom": "^6.5.0",
+		"@testing-library/user-event": "^14.5.2",
 		"@types/js-yaml": "^4.0.9",
 		"@types/lodash": "^4.17.7",
 		"class-variance-authority": "^0.7.0",
@@ -25,6 +27,7 @@
 		"lodash": "^4.17.21",
 		"lucide-react": "^0.427.0",
 		"next": "^14.1.4",
+		"next-router-mock": "^0.9.13",
 		"nextjs-toploader": "^3.6.15",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -42,9 +45,12 @@
 		"@eslint/js": "^9.11.1",
 		"@frames.js/debugger": "^0.3.0",
 		"@tailwindcss/typography": "^0.5.14",
+		"@testing-library/react": "^16.0.1",
+		"@types/jest": "^29.5.13",
 		"@types/node": "^18.17.0",
 		"@types/react": "^18.2.0",
 		"@types/react-dom": "^18.2.0",
+		"@vitejs/plugin-react": "^4.3.2",
 		"autoprefixer": "^10.4.19",
 		"concurrently": "^8.2.2",
 		"eslint": "^9.11.1",
@@ -53,11 +59,13 @@
 		"eslint-plugin-react": "^7.37.0",
 		"globals": "^15.9.0",
 		"is-port-reachable": "^4.0.0",
+		"jsdom": "^25.0.1",
 		"postcss": "^8.4.40",
 		"prettier": "^3.3.3",
 		"tailwindcss": "^3.4.7",
 		"typescript": "^5.4.5",
-		"typescript-eslint": "^8.7.0"
+		"typescript-eslint": "^8.7.0",
+		"vitest": "^2.1.2"
 	},
 	"scripts": {
 		"nix-dev": "nix develop --extra-experimental-features nix-command --extra-experimental-features flakes",
@@ -68,6 +76,7 @@
 		"lint:fix": "eslint . --fix",
 		"format-check": "prettier --list-different .",
 		"format": "prettier --write . --config ./.prettierrc.json",
-		"lint-format-check": "npm run lint-check && npm run format-check"
+		"lint-format-check": "npm run lint-check && npm run format-check",
+		"test": "vitest"
 	}
 }

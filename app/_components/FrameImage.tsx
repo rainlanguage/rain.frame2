@@ -83,7 +83,7 @@ export const FrameImage = ({ currentState }: { currentState: FrameState }) => {
 									Deployment
 								</td>
 								<td className="p-4 text-gray-600" tw="px-4 py-2 text-gray-600">
-									{currentState.deploymentOption.name}
+									{currentState.deploymentOption?.name}
 								</td>
 							</tr>
 							{Object.keys(currentState.bindings).map((binding: string) => {
@@ -142,6 +142,7 @@ export const FrameImage = ({ currentState }: { currentState: FrameState }) => {
 				) : (
 					''
 				)}
+
 				{currentState.currentStep === 'done' ? 'Done!' : ''}
 			</div>
 			<div className="hidden" tw="right-2 bottom-2 flex absolute w-[232px] h-[37px]">

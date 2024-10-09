@@ -15,4 +15,7 @@ export type FrameState = {
 	error: string | null;
 	isWebapp?: boolean;
 	tokenInfos: TokenInfo[];
+	inputText?: string;
+	buttonsData: any[];
+	previousCustomInputValue: string;
 };
