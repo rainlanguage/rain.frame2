@@ -97,7 +97,7 @@ export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
 			try {
 				const parsedRawAmount = parseUnits(userInput, vault.token.decimals).toString();
 				setRawAmount(parsedRawAmount); // Update raw amount on every user change
-			} catch (err) {
+			} catch {
 				setRawAmount('0'); // Fallback to 0 if input is invalid
 			}
 		} else {

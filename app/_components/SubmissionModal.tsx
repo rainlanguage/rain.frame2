@@ -97,8 +97,6 @@ export const SubmissionModal = ({
 	const [open, setOpen] = useState(false);
 	const [showFinalMessage, setShowFinalMessage] = useState(false);
 
-	const [hash, setHash] = useState<string | null>(null);
-
 	useEffect(() => {
 		if (submissionState === SubmissionStatus.Done) {
 			setTimeout(() => {
@@ -112,7 +110,6 @@ export const SubmissionModal = ({
 		setSubmissionState(SubmissionStatus.ApprovingTokens);
 		setShowFinalMessage(false);
 		setShowDisclaimer(true);
-		setHash(null);
 	};
 
 	const submitStrategy = async () => {
@@ -275,8 +272,6 @@ export const SubmissionModal = ({
 				hash: deployTx,
 				confirmations: 4
 			});
-
-			setHash(deployTx);
 
 			setSubmissionState(SubmissionStatus.Done);
 		} catch (e: any) {

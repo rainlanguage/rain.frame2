@@ -66,7 +66,7 @@ export default function MyStrategies() {
 									<Table.Cell>
 										<div className="flex gap-x-2">
 											{order.outputs.map((output: any, i: number) => (
-												<TokenAndBalance key={i} input={output} />
+												<TokenAndBalance input={output} key={i} />
 											))}
 										</div>
 									</Table.Cell>

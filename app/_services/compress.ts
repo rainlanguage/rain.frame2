@@ -1,7 +1,7 @@
 // Compresses string to GZIP. Retruns a Promise with Base64 string
 export const compress = (string: string): Promise<string> => {
 	const blobToBase64 = (blob: Blob) =>
-		new Promise<string>((resolve, _) => {
+		new Promise<string>((resolve) => {
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				const res = reader.result;

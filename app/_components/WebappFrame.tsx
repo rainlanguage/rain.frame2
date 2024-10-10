@@ -8,7 +8,6 @@ import { getUpdatedFrameState } from '../_services/frameState';
 import { FrameState } from '../_types/frame';
 import yaml from 'js-yaml';
 import { ProgressBar } from './ProgressBar';
-import _ from 'lodash';
 import { FailsafeSchemaWithNumbers } from '../_schemas/failsafeWithNumbers';
 import { SubmissionModal } from './SubmissionModal';
 import { useSearchParams } from 'next/navigation';

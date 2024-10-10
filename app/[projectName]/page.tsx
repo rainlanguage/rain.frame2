@@ -18,8 +18,8 @@ export default async function ProjectHome({ params }: homeProps) {
 				<Markdown rehypePlugins={[rehypeRaw]}>{projectData.webappMDText}</Markdown>
 			</div>
 			<div className="flex flex-col gap-y-4 col-span-2 xl:col-span-3 justify-start bg-gray-50 p-8 border-lg border-gray-100">
-				{projectData.yamlDatas.map((data) => (
-					<StrategyCard data={data} />
+				{projectData.yamlDatas.map((data, i: number) => (
+					<StrategyCard data={data} key={i} />
 				))}
 			</div>
 		</div>

@@ -137,7 +137,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 
 					setDepositState(TokenDepositStatus.WaitingForApprovalConfirmation);
 
-					const receipt = await waitForTransactionReceipt(config, {
+					await waitForTransactionReceipt(config, {
 						hash: approveTx,
 						confirmations: 1
 					});
@@ -167,7 +167,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 
 			setDepositState(TokenDepositStatus.WaitingForDepositConfirmation);
 
-			const depositReceipt = await waitForTransactionReceipt(config, {
+			await waitForTransactionReceipt(config, {
 				hash: depositTx,
 				confirmations: 1
 			});
@@ -211,7 +211,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 					setError(null);
 				}
 				setRawAmount(parsedRawAmount); // Update raw amount on every user change
-			} catch (err) {
+			} catch {
 				// TODO: Allow decimals
 				setRawAmount('0'); // Fallback to 0 if input is invalid
 			}
