@@ -13,6 +13,7 @@ import { Input, Output } from '../types';
 
 interface props {
 	transactionId: string;
+	network: string;
 }
 
 const Property = ({
@@ -30,10 +31,10 @@ const Property = ({
 	</div>
 );
 
-const StrategyAnalytics = ({ transactionId }: props) => {
+const StrategyAnalytics = ({ transactionId, network }: props) => {
 	const query = useQuery({
 		queryKey: [transactionId],
-		queryFn: () => getTransactionAnalyticsData(transactionId),
+		queryFn: () => getTransactionAnalyticsData(transactionId, network),
 		enabled: !!transactionId,
 		refetchInterval: 10000
 	});
@@ -73,6 +74,11 @@ const StrategyAnalytics = ({ transactionId }: props) => {
 								</Button>
 							)}
 						</div>
+						<Property name="Chain">
+							<span className="break-words">
+								{network[0].toUpperCase() + network.substring(1).toLowerCase()}
+							</span>
+						</Property>
 						<Property name="Transaction ID">
 							<span className="break-words">{query.data.transaction.id}</span>
 						</Property>

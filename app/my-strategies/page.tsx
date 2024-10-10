@@ -42,7 +42,7 @@ export default function MyStrategies() {
 									key={i}
 									onClick={() => {
 										router.push(
-											`${window.location.origin}/my-strategies/${order.addEvents[0].transaction.id}`
+											`${window.location.origin}/my-strategies/${order.addEvents[0].transaction.id}-${order.network}`
 										);
 									}}
 								>
