@@ -18,6 +18,7 @@ import { TokenInfo, getTokenInfos } from '../_services/getTokenInfo';
 import { Button, Spinner } from 'flowbite-react';
 import ShareStateAsUrl from './ShareStateAsUrl';
 import { decompress } from '../_services/compress';
+import { CodemirrorModal } from './CodemirrorModal';
 
 interface props {
 	dotrainText: string;
@@ -199,6 +200,12 @@ const WebappFrame = ({ dotrainText, deploymentOption }: props) => {
 							<SubmissionModal
 								key={buttonData.buttonText}
 								buttonText={buttonData.buttonText}
+								yamlData={yamlData}
+								currentState={currentState}
+								dotrainText={dotrainText}
+								setError={setError}
+							/>
+							<CodemirrorModal
 								yamlData={yamlData}
 								currentState={currentState}
 								dotrainText={dotrainText}
