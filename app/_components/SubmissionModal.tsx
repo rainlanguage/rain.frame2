@@ -286,7 +286,10 @@ export const SubmissionModal = ({
 					}`
 				);
 			} else {
-				setError(e?.cause?.message || e?.message || 'An error occurred');
+				if (e.message.includes('User rejected the request')) {
+					return setError('User rejected the transaction.');
+				}
+				setError('An error occurred');
 			}
 			setOpen(false);
 		}
