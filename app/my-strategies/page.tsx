@@ -45,7 +45,7 @@ export default function MyStrategies() {
 										);
 									}}
 								>
-									<Table.Cell>{order.network}</Table.Cell>
+									<Table.Cell>{order.network.name}</Table.Cell>
 									<Table.Cell>
 										{order.active ? (
 											<div className="text-emerald-500">Active</div>
@@ -59,14 +59,14 @@ export default function MyStrategies() {
 									<Table.Cell>
 										<div className="flex gap-x-2">
 											{order.inputs.map((input: any, i: number) => (
-												<TokenAndBalance input={input} key={i} />
+												<TokenAndBalance input={input} network={order.network} />
 											))}
 										</div>
 									</Table.Cell>
 									<Table.Cell>
 										<div className="flex gap-x-2">
 											{order.outputs.map((output: any, i: number) => (
-												<TokenAndBalance key={i} input={output} />
+												<TokenAndBalance key={i} input={output} network={order.network} />
 											))}
 										</div>
 									</Table.Cell>

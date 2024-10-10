@@ -1,7 +1,6 @@
 import { getNetworkSubgraphs } from './subgraphs';
 
 export const getOrders = async (owner?: string) => {
-	const networks = await getNetworkSubgraphs();
 	if (!owner) return;
 	const query = `{
         orders(orderBy: timestampAdded, orderDirection: desc, where: { owner: "${owner}" }) {
@@ -49,9 +48,10 @@ export const getOrders = async (owner?: string) => {
 
 	// make a query for each network
 	const promises: Promise<any>[] = [];
-	Object.entries(networks).forEach(([network, subgraphUrl]) => {
+	const networks = await getNetworkSubgraphs();
+	networks.forEach((network) => {
 		promises.push(
-			fetch(subgraphUrl, {
+			fetch(network.subgraphUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

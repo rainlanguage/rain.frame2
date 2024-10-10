@@ -68,9 +68,10 @@ interface Vault {
 
 interface DepositModalProps {
 	vault: Vault;
+	networkStatus: { wrongNetwork: boolean; targetNetworkName: string | undefined };
 }
 
-export const DepositModal = ({ vault }: DepositModalProps) => {
+export const DepositModal = ({ vault, networkStatus }: DepositModalProps) => {
 	const { writeContractAsync } = useWriteContract();
 	const [open, setOpen] = useState(false);
 	const [rawAmount, setRawAmount] = useState<string>('0');
@@ -79,11 +80,13 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 	const [depositTxHash, setDepositTxHash] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (!open) {
+		if (networkStatus.wrongNetwork) {
+			setError(`Please connect to ${networkStatus.targetNetworkName} in order to make deposits.`);
+		} else if (!open) {
 			setDepositState(TokenDepositStatus.Idle);
 			setError(null);
 		}
-	}, [open]);
+	}, [open, networkStatus.wrongNetwork]);
 
 	const address = useAccount().address;
 	const chain = useAccount().chain;
@@ -112,12 +115,9 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 	const deposit = async () => {
 		try {
 			setDepositState(TokenDepositStatus.Pending);
-
 			const depositAmount = form.getValues('depositAmount').toString();
 			setRawAmount(depositAmount);
-
 			const parsedAmount = parseUnits(depositAmount, vault.token.decimals);
-
 			setDepositState(TokenDepositStatus.CheckingAllowance);
 			const existingAllowance = await readContract(config.getClient(), {
 				abi: erc20Abi,
@@ -145,10 +145,10 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 					setDepositState(TokenDepositStatus.Error);
 					if (
 						(error as Error)?.message &&
-						(error as Error).message.includes('User rejected the request')
+						(error as Error).message.includes('User rejected the request.')
 					) {
 						setError('User rejected the approval request.');
-					} else setError('Error during approval process');
+					} else setError('Error during approval process.');
 				}
 
 				setDepositState(TokenDepositStatus.TokensApproved);
@@ -177,10 +177,12 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 			setDepositState(TokenDepositStatus.Error);
 			if (
 				(error as Error)?.message &&
-				(error as Error).message.includes('User rejected the request')
+				(error as Error).message.includes('User rejected the request.')
 			) {
 				setError('User rejected the deposit request.');
-			} else setError('Error during deposit process');
+			} else {
+				setError('Error during deposit process.');
+			}
 		}
 	};
 
@@ -206,7 +208,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 				const parsedRawAmount = parseUnits(userInput, vault.token.decimals).toString();
 
 				if (BigInt(parsedRawAmount) > connectedWalletBalance) {
-					setError('Amount exceeds wallet balance');
+					setError('Amount exceeds wallet balance.');
 				} else {
 					setError(null);
 				}
@@ -241,7 +243,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 								onSubmit={form.handleSubmit(async () => {
 									await deposit();
 								})}
-								className="space-y-8"
+								className="space-y-2"
 							>
 								<FormField
 									control={form.control}
@@ -274,7 +276,7 @@ export const DepositModal = ({ vault }: DepositModalProps) => {
 										</FormItem>
 									)}
 								/>
-								<Button type="submit" disabled={!!error}>
+								<Button type="submit" className="disabled:cursor-not-allowed" disabled={!!error}>
 									Submit
 								</Button>
 							</form>

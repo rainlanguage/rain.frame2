@@ -9,6 +9,7 @@ import { useWriteContract } from 'wagmi';
 import { decodeAbiParameters } from 'viem';
 import TradesTable from './TradesTable';
 import QuotesTable from './QuotesTable';
+import { useEffect } from 'react';
 
 interface props {
 	transactionId: string;
@@ -91,7 +92,12 @@ const StrategyAnalytics = ({ transactionId }: props) => {
 									{query.data.order.inputs.map((vault: any) => {
 										return (
 											<div key={vault}>
-												<TokenAndBalance input={vault} deposit withdraw />
+												<TokenAndBalance
+													input={vault}
+													deposit
+													withdraw
+													network={query.data.order.network}
+												/>
 											</div>
 										);
 									})}
@@ -103,7 +109,12 @@ const StrategyAnalytics = ({ transactionId }: props) => {
 									{query.data.order.outputs.map((vault: any) => {
 										return (
 											<div key={vault}>
-												<TokenAndBalance input={vault} deposit withdraw />
+												<TokenAndBalance
+													input={vault}
+													deposit
+													withdraw
+													network={query.data.order.network}
+												/>
 											</div>
 										);
 									})}

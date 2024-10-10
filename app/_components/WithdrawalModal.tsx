@@ -41,9 +41,10 @@ interface Vault {
 
 interface WithdrawalModalProps {
 	vault: Vault;
+	networkStatus: { wrongNetwork: boolean; targetNetworkName: string | undefined };
 }
 
-export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
+export const WithdrawalModal = ({ vault, networkStatus }: WithdrawalModalProps) => {
 	const { writeContractAsync } = useWriteContract();
 	const [open, setOpen] = useState(false);
 	const [rawAmount, setRawAmount] = useState<string>('0'); // Store the raw 18-decimal amount
@@ -52,10 +53,14 @@ export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
 
 	useEffect(() => {
 		setError(null);
-		if (BigInt(rawAmount) > BigInt(vault.balance)) {
-			setError('Amount exceeds vault balance');
+		if (networkStatus.wrongNetwork) {
+			setError(
+				`Please connect to ${networkStatus.targetNetworkName} in order to make withdrawals.`
+			);
+		} else if (BigInt(rawAmount) > BigInt(vault.balance)) {
+			setError('Amount exceeds vault balance.');
 		}
-	}, [rawAmount, vault.balance]);
+	}, [rawAmount, vault.balance, networkStatus.wrongNetwork]);
 
 	// Vault balance in human-readable format (i.e., converted from 18 decimals)
 	const readableBalance = formatUnits(vault.balance, vault.token.decimals);
@@ -69,7 +74,6 @@ export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
 	});
 
 	const withdraw = async (amount: string) => {
-		console.log('Withdraw', amount);
 		// Send raw value to the contract (no conversion needed here)
 		await writeContractAsync({
 			abi: orderBookJson.abi,
@@ -93,7 +97,6 @@ export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
 
 		// Update the raw amount based on the user input (convert back to raw value)
 		if (userInput) {
-			console.log(userInput);
 			try {
 				const parsedRawAmount = parseUnits(userInput, vault.token.decimals).toString();
 				setRawAmount(parsedRawAmount); // Update raw amount on every user change
@@ -127,7 +130,7 @@ export const WithdrawalModal = ({ vault }: WithdrawalModalProps) => {
 								await withdraw(rawAmount);
 								setOpen(false);
 							})}
-							className="space-y-8"
+							className="space-y-2"
 						>
 							<FormField
 								control={form.control}
